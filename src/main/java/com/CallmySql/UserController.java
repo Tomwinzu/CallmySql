@@ -33,7 +33,7 @@ public class UserController {
 
         Genderize getGenderize = restTemplate.getForObject(url, Genderize.class);
       User uGender=new User();
-     uGender.getGender();
+
         return  getGenderize;
     }
 
@@ -56,7 +56,11 @@ public class UserController {
         return getNationalize;
 
     }
+    public @ResponseBody String getUser(@PathVariable("name") String firstName) {
 
+        return getUser(firstName,getAgify(firstName).getAge(), getGenderize(firstName).getGender(), getNationalize(firstName).getCountry().get(0).getCountry_id());
+
+    }
 
 
     @GetMapping(path = "/all")

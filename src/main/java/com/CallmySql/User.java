@@ -22,6 +22,22 @@ private String username ;
       private String nationality;
        private  String tags;
 
+    public User() {
+    }
+
+    public User(String username, String password, String firstName, String lastName, String email, String contactNumber, int age, String gender, String nationality, String tags) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.contactNumber = contactNumber;
+        this.age = age;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.tags = tags;
+    }
+
     public String getUsername() {
         return username;
     }
