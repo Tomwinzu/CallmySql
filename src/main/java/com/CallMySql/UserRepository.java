@@ -1,4 +1,4 @@
-package com.CallmySql;
+package com.CallMySql;
 
 import org.springframework.data.repository.CrudRepository;
 

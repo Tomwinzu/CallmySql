@@ -1,10 +1,10 @@
-package com.CallmySql;
+package com.CallMySql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CallmySqlApplicationTests {
+class CallMySqlApplicationTests {
 
 	@Test
 	void contextLoads() {

@@ -1,32 +1,36 @@
-package com.CallmySql;
+package com.CallMySql;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+
 @RestController
+
 public class UserController {
-    @Autowired
+@Autowired
     private UserRepository userRepository;
-  private RestTemplate restTemplate;
-    @PostMapping(path="api/user-management/user")
-    public @ResponseBody String addNewUser(@RequestParam String password, @RequestParam String firstName, @RequestParam String lastName,
-                                           @RequestParam String email, @RequestParam String contactNumber, @RequestParam String tags) {
+    private RestTemplate restTemplate;
+    @PostMapping(path="/api/user-management/user")
+    public @ResponseBody  String addNewUser(@RequestParam String password, @RequestParam String firstName, @RequestParam String lastName,
+                                            @RequestParam String email, @RequestParam String contactNumber, @RequestParam String tags) {
 
         User u = new User();
         u.setPassword(password);
         u.setFirstName(firstName);
         u.setLastName(lastName);
         u.setEmail(email);
+        u.setContactNumber(contactNumber);
         u.setTags(tags);
+
+        System.out.println(u);
+
         userRepository.save(u);
+
         return "Saved";
     }
-      @RequestMapping("/api/get")
+     @RequestMapping ("/api/get")
        private  Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
@@ -56,12 +60,12 @@ public class UserController {
         return getNationalize;
 
     }
-    public @ResponseBody String getUser(@PathVariable("name") String firstName) {
-
-        return getUser(firstName,getAgify(firstName).getAge(), getGenderize(firstName).getGender(), getNationalize(firstName).getCountry().get(0).getCountry_id());
+ /*public  User user(@PathVariable("name") String firstName) {
+        return new User(getAgify(firstName).getAge(), getGenderize(firstName).getGender(), getNationalize(firstName).getCountry().get(0).getCountry_id()) {
+        };
 
     }
-
+*/
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {

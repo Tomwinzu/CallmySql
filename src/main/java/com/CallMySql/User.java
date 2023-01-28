@@ -1,4 +1,4 @@
-package com.CallmySql;
+package com.CallMySql;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,63 +11,42 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-private String username ;
+  private String userName;
     private String password;
-      private String firstName;
-      private String lastName;
-      private String email;
-      private  String contactNumber;
-      private  int age;
-      private String gender;
-      private String nationality;
-       private  String tags;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String contactNumber;
+    private String tags;
+    private int age;
+    private String gender;
+    private String nationality;
 
-    public User() {
-    }
+    public User(String userName, String password, String firstName,
+                String lastName, String email, String contactNumber, String tags,
+                int age, String gender, String nationality) {
 
-    public User(String username, String password, String firstName, String lastName, String email, String contactNumber, int age, String gender, String nationality, String tags) {
-        this.username = username;
+        this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.contactNumber = contactNumber;
-        this.age = age;
-        this.gender = gender;
-        this.nationality = nationality;
         this.tags = tags;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
         this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public User() {
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -117,4 +96,29 @@ private String username ;
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
+    }
 }
+

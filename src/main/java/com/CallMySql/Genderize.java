@@ -1,4 +1,4 @@
-package com.CallmySql;
+package com.CallMySql;
 
 public class Genderize {
     private String count;
