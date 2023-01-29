@@ -5,67 +5,54 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-
 @RestController
 
 public class UserController {
-@Autowired
+    @Autowired
     private UserRepository userRepository;
     private RestTemplate restTemplate;
-    @PostMapping(path="/api/user-management/user")
-    public @ResponseBody  String addNewUser(@RequestParam String password, @RequestParam String firstName, @RequestParam String lastName,
-                                            @RequestParam String email, @RequestParam String contactNumber, @RequestParam String tags) {
+    User u = new User();
 
-        User u = new User();
-        u.setPassword(password);
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setEmail(email);
-        u.setContactNumber(contactNumber);
-        u.setTags(tags);
-
-        System.out.println(u);
-
+    @PostMapping(path = "/api/user-management/user")
+    public String addNewUser(@RequestBody User user) {
+        u.setUserName(u.getEmail());
+        userRepository.save(user);
         userRepository.save(u);
 
         return "Saved";
     }
-     @RequestMapping ("/api/get")
-       private  Genderize getGenderize(String firstName) {
+
+
+    private Genderize getGenderize(String firstName) {
+
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
         Genderize getGenderize = restTemplate.getForObject(url, Genderize.class);
-      User uGender=new User();
+        u.setGender(getGenderize(firstName).getGender());
+        userRepository.save(u);
 
-        return  getGenderize;
+        return getGenderize;
     }
 
     private Agify getAgify(String firstName) {
-
-        String url = "https://api.agify.io/?name=" +firstName ;
-
+        String url = "https://api.agify.io/?name=" + firstName;
         Agify getAgify = restTemplate.getForObject(url, Agify.class);
 
+        u.setAge(getAgify(firstName).getAge());
+        userRepository.save(u);
 
-         return  getAgify;
+        return getAgify;
     }
 
 
     private Nationalize getNationalize(String firstName) {
-
         String url = "https://api.nationalize.io?name=" + firstName;
         Nationalize getNationalize = restTemplate.getForObject(url, Nationalize.class);
-
+        u.setNationality(getNationalize(firstName).getCountry().get(0).getCountry_id());
+        userRepository.save(u);
         return getNationalize;
-
     }
- /*public  User user(@PathVariable("name") String firstName) {
-        return new User(getAgify(firstName).getAge(), getGenderize(firstName).getGender(), getNationalize(firstName).getCountry().get(0).getCountry_id()) {
-        };
-
-    }
-*/
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {
