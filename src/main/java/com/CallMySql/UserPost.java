@@ -1,30 +1,18 @@
 package com.CallMySql;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 
-@Entity
+
+import java.util.List;
+
 public class UserPost {
-    @Id
+
 
     private String password;
     private String firstName;
     private String lastName;
     private String email;
     private String contactNumber;
-    private String tags;
-
-    public UserPost() {
-    }
-
-    public UserPost(String password, String firstName, String lastName, String email, String contactNumber, String tags) {
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.contactNumber = contactNumber;
-        this.tags = tags;
-    }
+    private List<String> tags;
 
     public String getPassword() {
         return password;
@@ -66,11 +54,11 @@ public class UserPost {
         this.contactNumber = contactNumber;
     }
 
-    public String getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 }
