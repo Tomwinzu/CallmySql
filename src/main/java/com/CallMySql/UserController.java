@@ -14,12 +14,12 @@ public class UserController {
     User u = new User();
 
     @PostMapping(path = "/api/user-management/user")
-    public String addNewUser(@RequestBody User user) {
-        u.setUserName(u.getEmail());
-        userRepository.save(user);
-        userRepository.save(u);
+    public User u(@RequestBody UserPost userPost) {
 
-        return "Saved";
+        u.setUserName(userPost.getEmail());
+             userRepository.save(u);
+
+        return new User();
     }
 
 

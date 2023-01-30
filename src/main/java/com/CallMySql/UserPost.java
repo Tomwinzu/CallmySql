@@ -1,37 +1,29 @@
 package com.CallMySql;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import java.util.List;
-
-
 @Entity
-
-
-public class User {
+public class UserPost {
     @Id
 
-
-    private String userName;
-  private String password;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
     private String contactNumber;
     private String tags;
-    private int age;
-    private String gender;
-    private String nationality;
 
-    public String getUserName() {
-        return userName;
+    public UserPost() {
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public UserPost(String password, String firstName, String lastName, String email, String contactNumber, String tags) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.contactNumber = contactNumber;
+        this.tags = tags;
     }
 
     public String getPassword() {
@@ -80,29 +72,5 @@ public class User {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
     }
 }
