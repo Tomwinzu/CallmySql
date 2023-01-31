@@ -2,8 +2,12 @@ package com.CallMySql;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 
 @RestController
 
@@ -16,19 +20,23 @@ public class UserController {
 
     @PostMapping(path = "/api/user-management/user")
     public String addUser(@RequestBody UserPost userPost) {
+        String tags=userPost.getTags().stream().collect(Collectors.joining(":"));
 
-        u.setUserName(userPost.getEmail());
+         u.setUserName(userPost.getEmail());
         u.setPassword(userPost.getPassword());
         u.setFirstName(userPost.getFirstName());
         u.setLastName(userPost.getLastName());
         u.setEmail(userPost.getEmail());
         u.setContactNumber(userPost.getContactNumber());
-        u.setTags(userPost.getTags().get(1));
-      u.setAge(getAgify(userPost.getFirstName()).getAge());
+        u.setTags(tags);
+
+      /*u.setAge(getAgify(userPost.getFirstName()).getAge());
        u.setGender(getGenderize(userPost.getFirstName()).getGender());
      u.setNationality(getNationalize(userPost.getFirstName()).getCountry().get(0).getCountry_id());
 
 
+
+       */
 
         userRepository.save(u);
 
@@ -36,7 +44,7 @@ public class UserController {
     }
 
 
-    private Genderize getGenderize(String firstName) {
+  /*  private Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
@@ -64,6 +72,8 @@ public class UserController {
     }
 
 
+
+   */
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {

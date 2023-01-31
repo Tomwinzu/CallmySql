@@ -26,6 +26,7 @@ public class User {
     private String gender;
     private String nationality;
 
+
     public String getUserName() {
         return userName;
     }
