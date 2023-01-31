@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import java.util.Date;
+
 import java.util.stream.Collectors;
 
 
@@ -29,22 +29,18 @@ public class UserController {
         u.setEmail(userPost.getEmail());
         u.setContactNumber(userPost.getContactNumber());
         u.setTags(tags);
-
-      /*u.setAge(getAgify(userPost.getFirstName()).getAge());
+      u.setAge(getAgify(userPost.getFirstName()).getAge());
        u.setGender(getGenderize(userPost.getFirstName()).getGender());
      u.setNationality(getNationalize(userPost.getFirstName()).getCountry().get(0).getCountry_id());
+      u.setStatus("active");
 
-
-
-       */
-
-        userRepository.save(u);
+         userRepository.save(u);
 
         return "saved";
     }
 
 
-  /*  private Genderize getGenderize(String firstName) {
+   private Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
@@ -73,7 +69,7 @@ public class UserController {
 
 
 
-   */
+
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {
