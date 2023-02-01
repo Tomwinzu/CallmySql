@@ -16,7 +16,7 @@ public class User {
 
 
     private String userName;
-  private String password;
+    private String password;
     private String firstName;
     private String lastName;
     private String email;
@@ -26,7 +26,8 @@ public class User {
     private String gender;
     private String nationality;
 
-      private String status;
+    private String status;
+
     private String created;
     private String updated;
 
@@ -44,14 +45,6 @@ public class User {
 
     public void setUpdated(String updated) {
         this.updated = updated;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getUserName() {
@@ -132,5 +125,13 @@ public class User {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

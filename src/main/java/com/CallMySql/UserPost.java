@@ -1,7 +1,6 @@
 package com.CallMySql;
 
 
-
 import java.util.List;
 
 public class UserPost {

@@ -2,9 +2,15 @@ package com.CallMySql;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedDate;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 import java.util.stream.Collectors;
 
@@ -16,31 +22,42 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private RestTemplate restTemplate;
-    User u = new User();
+
 
     @PostMapping(path = "/api/user-management/user")
-    public String addUser(@RequestBody UserPost userPost) {
-        String tags=userPost.getTags().stream().collect(Collectors.joining(":"));
+    @ResponseBody
+    public ResponseEntity<String> addUser(@RequestBody UserPost userPost) {
 
-         u.setUserName(userPost.getEmail());
+
+        String tags = userPost.getTags().stream().collect(Collectors.joining(":"));
+        User u = new User();
+        u.setUserName(userPost.getEmail());
         u.setPassword(userPost.getPassword());
         u.setFirstName(userPost.getFirstName());
         u.setLastName(userPost.getLastName());
         u.setEmail(userPost.getEmail());
         u.setContactNumber(userPost.getContactNumber());
         u.setTags(tags);
-      u.setAge(getAgify(userPost.getFirstName()).getAge());
-       u.setGender(getGenderize(userPost.getFirstName()).getGender());
-     u.setNationality(getNationalize(userPost.getFirstName()).getCountry().get(0).getCountry_id());
-      u.setStatus("active");
+        u.setAge(getAgify(userPost.getFirstName()).getAge());
+        u.setGender(getGenderize(userPost.getFirstName()).getGender());
+        u.setNationality(getNationalize(userPost.getFirstName()).getCountry().get(0).getCountry_id());
+        u.setStatus("active");
+        u.setCreated(date());
+        u.setUpdated(date());
+        userRepository.save(u);
 
-         userRepository.save(u);
-
-        return "saved";
+        return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
+    public String date() {
 
-   private Genderize getGenderize(String firstName) {
+        LocalDateTime dateObj = LocalDateTime.now();
+        DateTimeFormatter currentDate = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = dateObj.format(currentDate);
+        return formattedDate;
+    }
+
+    private Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
@@ -50,9 +67,8 @@ public class UserController {
     }
 
 
-
     private Agify getAgify(String firstName) {
-        String url = "https://api.agify.io/?name=" +firstName;
+        String url = "https://api.agify.io/?name=" + firstName;
         Agify getAgify = restTemplate.getForObject(url, Agify.class);
 
 
@@ -66,9 +82,6 @@ public class UserController {
 
         return getNationalize;
     }
-
-
-
 
 
     @GetMapping(path = "/all")
