@@ -49,6 +49,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
 
+
     public String date() {
 
         LocalDateTime dateObj = LocalDateTime.now();
@@ -57,7 +58,8 @@ public class UserController {
         return formattedDate;
     }
 
-    private Genderize getGenderize(String firstName) {
+
+private  Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
