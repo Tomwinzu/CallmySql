@@ -59,7 +59,7 @@ public class UserController {
     }
 
 
-private  Genderize getGenderize(String firstName) {
+public Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
 
@@ -69,7 +69,7 @@ private  Genderize getGenderize(String firstName) {
     }
 
 
-    private Agify getAgify(String firstName) {
+public  Agify getAgify(String firstName) {
         String url = "https://api.agify.io/?name=" + firstName;
         Agify getAgify = restTemplate.getForObject(url, Agify.class);
 
@@ -78,7 +78,7 @@ private  Genderize getGenderize(String firstName) {
     }
 
 
-    private Nationalize getNationalize(String firstName) {
+public  Nationalize getNationalize(String firstName) {
         String url = "https://api.nationalize.io?name=" + firstName;
         Nationalize getNationalize = restTemplate.getForObject(url, Nationalize.class);
 

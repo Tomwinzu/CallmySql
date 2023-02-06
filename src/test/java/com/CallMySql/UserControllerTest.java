@@ -10,8 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -22,42 +20,41 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
+
     @Mock
     private UserRepository userRepository;
     @Mock
     private RestTemplate restTemplate;
     @InjectMocks
-    UserController toTest = new UserController();
+    UserController userTest = new UserController();
 
     @BeforeEach
     void setUp() {
+
         System.out.println("Test is starting");
         MockitoAnnotations.openMocks(this);
     }
 
     @AfterEach
     void getUp() {
+
         System.out.println("Test is end");
 
     }
 
     @Test
-    void addUser() {
+    void dateTest() {
 
-
-    }
-
-    @Test
-    void date() {
-        System.out.println(toTest.date());
-        assertEquals("-", toTest.date().substring(2, 3));
-        assertEquals("-", toTest.date().substring(5, 6));
-        assertEquals(":", toTest.date().substring(13, 14));
+        System.out.println(userTest.date());
+        assertEquals("-", userTest.date().substring(2, 3));
+        assertEquals("-", userTest.date().substring(5, 6));
+        assertEquals(":", userTest.date().substring(13, 14));
     }
 
 
     @Test
     void tagsTest() {
+
         List<String> tags = new ArrayList<>();
         tags.add("a");
         tags.add("b");
@@ -67,12 +64,10 @@ class UserControllerTest {
 
 
     @Test
-    void getAllUsers() {
+    void getAllUsersTest() {
 
         List<User> userList = new ArrayList<>();
-        List<String> tags = new ArrayList<>();
-        tags.add("a");
-        tags.add("b");
+
         User u1 = new User();
         u1.setPassword("112233");
         u1.setFirstName("tom");
@@ -81,6 +76,7 @@ class UserControllerTest {
         u1.setUserName(u1.getEmail());
         u1.setContactNumber("130030088");
         u1.setStatus("active");
+
         User u2 = new User();
         u2.setPassword("223344");
         u2.setFirstName("jenny");
@@ -91,25 +87,50 @@ class UserControllerTest {
         u2.setStatus("active");
         userList.add(u1);
         userList.add(u2);
+
         Mockito.when(userRepository.findAll()).thenReturn(userList);
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getUserName()));
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getPassword()));
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getFirstName()));
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getLastName()));
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getEmail()));
-        toTest.getAllUsers().forEach(i -> System.out.println(i.getContactNumber()));
-              toTest.getAllUsers().forEach(i -> System.out.println(i.getStatus()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getUserName()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getPassword()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getFirstName()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getLastName()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getEmail()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getContactNumber()));
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getStatus()));
     }
-@Test
-    void getGenderizeTest() {
 
-        Genderize gen=new Genderize();
-         Mockito.when(restTemplate.getForObject("https://api.genderize.io/?name=tom",Genderize.class)).thenReturn(gen);
-       toTest.getAllUsers().forEach(i-> System.out.println(i.getGender()));
-       Genderize genderize  =new Genderize();
-       Assertions.assertEquals(gen,genderize);
+    @Test
+    void genderizeTest() {
 
-    }
+        Genderize gen = new Genderize();
+        Mockito.when(restTemplate.getForObject("https://api.genderize.io/?name=tom", Genderize.class)).thenReturn(gen);
+        userTest.getAllUsers().forEach(i -> System.out.println(i.getGender()));
+        Genderize genderize = userTest.getGenderize("tom");
+        Assertions.assertEquals(gen, genderize);
+        System.out.println(genderize);
+        }
+        @Test
+        void agifyTest() {
+
+            Agify ag= new Agify();
+            Mockito.when(restTemplate.getForObject("https://api.agify.io/?name=tom", Agify.class)).thenReturn(ag);
+            userTest.getAllUsers().forEach(i -> System.out.println(i.getAge()));
+            Agify agify = userTest.getAgify("tom");
+            Assertions.assertEquals(ag, agify);
+            System.out.println(agify);
+        }
+
+        @Test
+        void nationalize () {
+
+            Nationalize na= new Nationalize();
+            Mockito.when(restTemplate.getForObject("https://api.nationalize.io?name=tom",  Nationalize.class)).thenReturn(na);
+            userTest.getAllUsers().forEach(i -> System.out.println(i.getNationality()));
+            Nationalize nationalize = userTest.getNationalize("tom");
+            Assertions.assertEquals(na, nationalize);
+            System.out.println(na);
+        }
+
+
 
 
 }
