@@ -58,7 +58,8 @@ class UserControllerTest {
         List<String> tags = new ArrayList<>();
         tags.add("a");
         tags.add("b");
-        System.out.println(tags.stream().collect(Collectors.joining(":")));
+         Assertions.assertEquals("a:b",tags.stream().collect(Collectors.joining(":")));
+
 
     }
 
@@ -96,6 +97,8 @@ class UserControllerTest {
         userTest.getAllUsers().forEach(i -> System.out.println(i.getEmail()));
         userTest.getAllUsers().forEach(i -> System.out.println(i.getContactNumber()));
         userTest.getAllUsers().forEach(i -> System.out.println(i.getStatus()));
+
+        Assertions.assertEquals(userList,userTest.getAllUsers());
     }
 
     @Test
