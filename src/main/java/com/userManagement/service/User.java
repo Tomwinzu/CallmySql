@@ -1,17 +1,11 @@
-package com.CallMySql;
+package com.userManagement.service;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
-import java.util.List;
-
-
 @Entity
-
-
 public class User {
+
+
     @Id
 
 
@@ -135,3 +129,6 @@ public class User {
         this.status = status;
     }
 }
+
+
+

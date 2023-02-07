@@ -1,11 +1,13 @@
-package com.CallMySql;
+package com.userManagement.service.bean;
+
 
 import java.util.List;
 
 public class Nationalize {
 
-    List <Country> country;
-      private String name;
+
+    List<Country> country;
+    private String name;
 
     public List<Country> getCountry() {
         return country;
@@ -23,3 +25,4 @@ public class Nationalize {
         this.name = name;
     }
 }
+

@@ -1,5 +1,4 @@
-package com.CallMySql;
-
+package com.userManagement.service.bean;
 
 import java.util.List;
 
@@ -61,3 +60,4 @@ public class UserPost {
         this.tags = tags;
     }
 }
+
