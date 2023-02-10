@@ -1,76 +1,62 @@
 package com.userManagement.service;
 
-
+import com.userManagement.User;
 import com.userManagement.UserRepository;
-import com.userManagement.service.bean.*;
+import com.userManagement.service.bean.Agify;
+import com.userManagement.service.bean.Genderize;
+import com.userManagement.service.bean.Nationalize;
+import com.userManagement.service.bean.UserPost;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
 
 @Service
-public class UserManagement {
+public class UserManagementService {
+
+
     @Autowired
-private UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
 
     private RestTemplate restTemplate;
+    User user = new User();
+    public void addUser(@RequestBody UserPost userPost) {
 
+        String tags = userPost.getTags().stream().collect(Collectors.joining(":"));
 
+        user.setUserName(userPost.getEmail());
+        user.setPassword(userPost.getPassword());
+        user.setFirstName(userPost.getFirstName());
+        user.setLastName(userPost.getLastName());
+        user.setEmail(userPost.getEmail());
+        user.setContactNumber(userPost.getContactNumber());
+        user.setTags(tags);
 
+    }
 
-
-   public User addUser(@RequestBody UserPost userPost) {
-
-           String tags = userPost.getTags().stream().collect(Collectors.joining(":"));
-       User u = new User();
-       u.setUserName(userPost.getEmail());
-       u.setPassword(userPost.getPassword());
-       u.setFirstName(userPost.getFirstName());
-       u.setLastName(userPost.getLastName());
-       u.setEmail(userPost.getEmail());
-       u.setContactNumber(userPost.getContactNumber());
-       u.setTags(tags);
-       u.setAge(getAgify(u.getFirstName()).getAge());
-       u.setGender(getGenderize(u.getFirstName()).getGender());
-       u.setNationality(getNationalize(u.getFirstName()).getCountry().get(0).getCountry_id());
-       u.setStatus("active");
-       u.setCreated(date());
-       u.setUpdated(date());
-       userRepository.save(u);
-
-       return null;
-
-   }
     private Agify getAgify(String firstName) {
         String url = "https://api.agify.io/?name=" + firstName;
         Agify getAgify = restTemplate.getForObject(url, Agify.class);
-
         return getAgify;
     }
-
 
     private Genderize getGenderize(String firstName) {
 
         String url = "https://api.genderize.io/?name=" + firstName;
-
         Genderize getGenderize = restTemplate.getForObject(url, Genderize.class);
-
         return getGenderize;
     }
 
-
-
     private Nationalize getNationalize(String firstName) {
+
         String url = "https://api.nationalize.io?name=" + firstName;
         Nationalize getNationalize = restTemplate.getForObject(url, Nationalize.class);
-
         return getNationalize;
+
     }
 
     public String date() {
@@ -81,7 +67,21 @@ private UserRepository userRepository;
         return formattedDate;
     }
 
+    public void deleteUserByEmail(String email) {
+        if (userRepository.findById(Integer.valueOf(email)).isPresent())
+            userRepository.deleteById(Integer.valueOf(email));
+    }
 
+    public void updateUser(UserPost userPost) {
+
+        user.setAge(getAgify(user.getFirstName()).getAge());
+        user.setGender(getGenderize(user.getFirstName()).getGender());
+        user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
+        user.setStatus("active");
+        user.setCreated(date());
+        user.setUpdated(date());
+        userRepository.save(user);
 
     }
+}
 

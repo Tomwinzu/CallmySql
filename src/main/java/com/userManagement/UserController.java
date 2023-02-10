@@ -1,8 +1,8 @@
 package com.userManagement;
 
 
-import com.userManagement.service.User;
-import com.userManagement.service.UserManagement;
+
+import com.userManagement.service.UserManagementService;
 import com.userManagement.service.bean.UserPost;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,21 +17,35 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    private UserManagement userManagement;
+    private UserManagementService userManagementService;
 
     @PostMapping(path = "/api/user-management/user")
     @ResponseStatus(HttpStatus.CREATED)
     public void addUser(@RequestBody UserPost userPost) {
-        userManagement.addUser(userPost);
+
+        userManagementService.addUser(userPost);
+
     }
 
+    @DeleteMapping("/api/user-management/user/{email}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable String email){
+        userManagementService.deleteUserByEmail((email));
 
+    }
+
+    @PutMapping("/api/user-management/user")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateUser(@RequestBody UserPost userPost) {
+
+        userManagementService.updateUser(userPost);
+
+    }
 
 
     @GetMapping(path = "/all")
     public @ResponseBody Iterable<User> getAllUsers() {
-
-        return userRepository.findAll();
+     return userRepository.findAll();
 
 
     }

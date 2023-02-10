@@ -1,4 +1,4 @@
-package com.userManagement.service;
+package com.userManagement;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

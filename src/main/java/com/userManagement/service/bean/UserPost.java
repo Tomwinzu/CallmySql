@@ -12,6 +12,18 @@ public class UserPost {
     private String contactNumber;
     private List<String> tags;
 
+    public UserPost() {
+    }
+
+    public UserPost(String password, String firstName, String lastName, String email, String contactNumber, List<String> tags) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.contactNumber = contactNumber;
+        this.tags = tags;
+    }
+
     public String getPassword() {
         return password;
     }
