@@ -36,11 +36,12 @@ public class UserController {
 
     @PutMapping("/api/user-management/user")
     @ResponseStatus(HttpStatus.OK)
-    public void updateUser(@RequestBody UserPost userPost) {
+    public void updateUser(@RequestBody User user) {
 
-        userManagementService.updateUser(userPost);
+        userManagementService.updateUser(user);
 
     }
+
 
 
     @GetMapping(path = "/all")
@@ -49,6 +50,4 @@ public class UserController {
 
 
     }
-
-
 }

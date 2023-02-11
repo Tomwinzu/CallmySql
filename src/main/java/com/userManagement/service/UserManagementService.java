@@ -6,6 +6,7 @@ import com.userManagement.service.bean.Agify;
 import com.userManagement.service.bean.Genderize;
 import com.userManagement.service.bean.Nationalize;
 import com.userManagement.service.bean.UserPost;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,9 @@ public class UserManagementService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-
     private RestTemplate restTemplate;
     User user = new User();
+
     public void addUser(@RequestBody UserPost userPost) {
 
         String tags = userPost.getTags().stream().collect(Collectors.joining(":"));
@@ -35,6 +36,14 @@ public class UserManagementService {
         user.setEmail(userPost.getEmail());
         user.setContactNumber(userPost.getContactNumber());
         user.setTags(tags);
+        user.setAge(getAgify(user.getFirstName()).getAge());
+        user.setGender(getGenderize(user.getFirstName()).getGender());
+        user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
+        user.setStatus("active");
+        user.setCreated(date());
+        user.setUpdated(date());
+        userRepository.save(user);
+
 
     }
 
@@ -72,16 +81,20 @@ public class UserManagementService {
             userRepository.deleteById(Integer.valueOf(email));
     }
 
-    public void updateUser(UserPost userPost) {
+    public void updateUser(User user) {
+        if (userRepository.findById(Integer.valueOf(user.getEmail())).isPresent()) {
+            var dbUser = userRepository.findById(Integer.valueOf(user.getEmail())).get();
 
-        user.setAge(getAgify(user.getFirstName()).getAge());
-        user.setGender(getGenderize(user.getFirstName()).getGender());
-        user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
-        user.setStatus("active");
-        user.setCreated(date());
-        user.setUpdated(date());
-        userRepository.save(user);
+            user.setUserName(user.getEmail());
+            user.setAge(getAgify(user.getFirstName()).getAge());
+            user.setGender(getGenderize(user.getFirstName()).getGender());
+            user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
+             user.setUpdated(String.valueOf(LocalDateTime.now()));
+            userRepository.save(user);
+        } else {
+            throw new EntityNotFoundException("User email: " + user.getEmail() + " cannot be found in the database");
+
+        }
 
     }
 }
-
