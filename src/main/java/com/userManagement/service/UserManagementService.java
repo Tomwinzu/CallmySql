@@ -76,21 +76,23 @@ public class UserManagementService {
         return formattedDate;
     }
 
-    public void deleteUserByEmail(String email) {
-        if (userRepository.findById(Integer.valueOf(email)).isPresent())
-            userRepository.deleteById(Integer.valueOf(email));
+    public void deleteUserByEmail(String userName) {
+        if (userRepository.findById(Integer.valueOf(userName)).isPresent());
+            userRepository.deleteById(Integer.valueOf(userName));
     }
 
     public void updateUser(User user) {
-        if (userRepository.findById(Integer.valueOf(user.getEmail())).isPresent()) {
-            var dbUser = userRepository.findById(Integer.valueOf(user.getEmail())).get();
 
-            user.setUserName(user.getEmail());
+        if (userRepository.findById(Integer.valueOf(user.getUserName())).isPresent()) {
+            var dbUser = userRepository.findById(Integer.valueOf(user.getUserName())).get();
+
+            user.setUserName(user.getUserName());
             user.setAge(getAgify(user.getFirstName()).getAge());
             user.setGender(getGenderize(user.getFirstName()).getGender());
             user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
              user.setUpdated(String.valueOf(LocalDateTime.now()));
             userRepository.save(user);
+
         } else {
             throw new EntityNotFoundException("User email: " + user.getEmail() + " cannot be found in the database");
 

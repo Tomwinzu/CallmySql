@@ -27,10 +27,10 @@ public class UserController {
 
     }
 
-    @DeleteMapping("/api/user-management/user/{email}")
+    @DeleteMapping("/api/user-management/user/{usrName}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteUser(@PathVariable String email){
-        userManagementService.deleteUserByEmail((email));
+    public void deleteUser(@PathVariable String userName){
+        userManagementService.deleteUserByEmail((userName));
 
     }
 
