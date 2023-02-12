@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.isA;
@@ -28,6 +27,7 @@ public class UserControllerTest {
 
     @MockBean
     private UserManagementService userManagementService;
+    private User user;
     private UserPost userPost;
 
     @Autowired
@@ -38,21 +38,37 @@ public class UserControllerTest {
 
         System.out.println("Test is starting");
         MockitoAnnotations.openMocks(this);
+
         this.userPost = new UserPost(
+
                 "password",
                 "fistName",
                 "lastName",
-                "tom@gmail.com",
                 "contractNumber",
-                Collections.singletonList("a:b"));
+                "tom@gmail.com",
+                Collections.singletonList("a:b:c")
 
-             }
+        );
+
+    }
 
 
     @AfterEach
     void tearDown() {
 
         System.out.println("Test is end");
+
+    }
+
+    @Test
+    void deleteUserTest() throws Exception {
+
+        doNothing().when(userManagementService).deleteUserByUserName(user.getUserName());
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/user-management/user/{userName}", user.getUserName())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
 
     }
 
@@ -64,16 +80,47 @@ public class UserControllerTest {
                         .post("/api/user-management/user")
                         .content(new ObjectMapper().writeValueAsString(userPost))
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isCreated());
+                .andExpect(status().isCreated());
 
     }
 
     @Test
+    void userUpdatedTest() throws Exception {
+
+        var user1=new User(
+                "tom@gmail.com",
+                "password1111",
+                "fistName",
+                "lastName",
+                "contractNumber222",
+                "tom@gmail.com",
+                "a:b:c",
+                0,
+                "null",
+                "null",
+                "active",
+                "null",
+                " null"
+
+        );
+
+
+
+        doNothing().when(userManagementService).updateUser(isA(User.class));
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .put("/api/user-management/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new ObjectMapper().writeValueAsString(user1)))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
     void getAllUsersTest() throws Exception {
 
-             this.mockMvc.perform((MockMvcRequestBuilders
-                .get("/all",userRepository.findAll())
-                .contentType(MediaType.APPLICATION_JSON)))
+        this.mockMvc.perform((MockMvcRequestBuilders
+                        .get("/all", userRepository.findAll())
+                        .contentType(MediaType.APPLICATION_JSON)))
                 .andExpect(status().isOk());
 
     }

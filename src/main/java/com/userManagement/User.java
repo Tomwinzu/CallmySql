@@ -26,6 +26,25 @@ public class User {
     private String created;
     private String updated;
 
+    public User() {
+    }
+
+    public User(String userName, String password, String firstName, String lastName, String contactNumber, String email, String tags, int age, String gender, String nationality, String status, String created, String updated) {
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.tags = tags;
+        this.age = age;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.status = status;
+        this.created = created;
+        this.updated = updated;
+    }
+
     public String getCreated() {
         return created;
     }

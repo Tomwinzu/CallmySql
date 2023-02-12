@@ -30,7 +30,7 @@ public class UserController {
     @DeleteMapping("/api/user-management/user/{usrName}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUser(@PathVariable String userName){
-        userManagementService.deleteUserByEmail((userName));
+        userManagementService.deleteUserByUserName(userName);
 
     }
 

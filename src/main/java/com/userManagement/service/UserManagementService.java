@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
@@ -76,21 +77,30 @@ public class UserManagementService {
         return formattedDate;
     }
 
-    public void deleteUserByEmail(String userName) {
-        if (userRepository.findById(Integer.valueOf(userName)).isPresent());
-            userRepository.deleteById(Integer.valueOf(userName));
-    }
+    public void deleteUserByUserName(String userName) {
+        if (userRepository.findById(userName).isPresent())
+            userRepository.deleteById(userName);
+        }
+
 
     public void updateUser(User user) {
 
-        if (userRepository.findById(Integer.valueOf(user.getUserName())).isPresent()) {
-            var dbUser = userRepository.findById(Integer.valueOf(user.getUserName())).get();
+        if (userRepository.findById(user.getUserName()).isPresent()) {
+            var dbUser = userRepository.findById(user.getUserName()).get();
 
             user.setUserName(user.getUserName());
             user.setAge(getAgify(user.getFirstName()).getAge());
             user.setGender(getGenderize(user.getFirstName()).getGender());
             user.setNationality(getNationalize(user.getFirstName()).getCountry().get(0).getCountry_id());
-             user.setUpdated(String.valueOf(LocalDateTime.now()));
+            user.setUpdated(date());
+            user.setPassword(dbUser.getPassword());
+            user.setCreated(dbUser.getCreated());
+            user.setLastName(dbUser.getLastName());
+            user.setFirstName(dbUser.getFirstName());
+            user.setTags(dbUser.getTags());
+            user.setStatus(dbUser.getStatus());
+            user.setContactNumber(user.getContactNumber());
+            user.setEmail(dbUser.getEmail());
             userRepository.save(user);
 
         } else {
